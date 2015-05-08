@@ -1,6 +1,6 @@
 @echo off
 SetLocal
-ECHO Multistream v0.2
+ECHO Multistream v1.0.0
 ECHO.
 ECHO Currently only supports 1920x1080 and asks for four streams
 ECHO.
