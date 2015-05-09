@@ -137,13 +137,13 @@ if %streamcount% EQU 2 (
 if %streamcount% EQU 3 (
     start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% best --loglevel error
     start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username2% best --loglevel error
-  	start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username2% best --loglevel error   
+  	start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username3% best --loglevel error   
     )
 
 if %streamcount% EQU 4 (
     start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% best --loglevel error
     start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username2% best --loglevel error
-  	start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=0%%:100%%" http://twitch.tv/%stream_username2% best --loglevel error   
+  	start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=0%%:100%%" http://twitch.tv/%stream_username3% best --loglevel error   
   	start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:100%%" http://twitch.tv/%stream_username4% best --loglevel error    
     )
 echo.
