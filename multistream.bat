@@ -1,6 +1,6 @@
 @echo off
 SetLocal
-set version=1.0.2
+set version=1.0.3
 TITLE Multistream v%version%
 for /f "delims=: tokens=*" %%A in ('findstr /b ::: "%~f0"') do @echo(%%A
 :::
@@ -125,26 +125,81 @@ echo.
 		)
 
 
+:start3bis
+echo.
+:: worst  --default-stream=worst,mobile,low,medium,high,best,source
+:: mobile --default-stream=mobile,low,worst
+:: low    --default-stream=low,mobile,medium,worst
+:: medium --default-stream=medium,low,high,worst
+:: high   --default-stream=high,medium,best
+:: source --default-stream=source,best
+:: best   --default-stream=source,best,high,medium,low,mobile,worst
+
+echo [1] best (source)
+echo [2] high (with fallback to medium,source)
+echo [3] medium (with fallback to low,high,worst)
+echo [4] low (with fallback to mobile,medium,worst)
+echo [5] worst (mobile with fallback to low,worst)
+echo.
+set /P quality=Select your quality: %=%
+if [%quality%] EQU [] (
+	echo.
+	echo Im pretty sure your stream has a quality. 
+	echo Let me know what it is please.
+	echo.
+	pause
+	cls
+	goto start3bis
+	)
+if %quality% GTR 5 (
+	echo.
+	echo No such quality. 
+	echo Try again.
+	echo.
+	pause
+	cls
+	goto start3bis
+	)
+
+if %quality% EQU 1 (
+	set quality="source,best"
+	)
+if %quality% EQU 2 (
+	set quality="high,medium,best"
+	)
+if %quality% EQU 3 (
+	set quality="medium,low,high,worst"
+	)
+if %quality% EQU 4 (
+	set quality="low,mobile,medium,worst"
+	)
+if %quality% EQU 5 (
+	set quality="mobile,low,worst"
+	)
+
+set "player=mpv.exe"
+set "playerargs=--ontop --mute=yes --volume=100 --no-osc --no-border"
+
 if %streamcount% EQU 1 (
-    start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% best --loglevel error
+    start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% --default-stream=%quality% --loglevel error
     )
 
 if %streamcount% EQU 2 (
-    start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% best --loglevel error
-    start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username2% best --loglevel error
+    start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% --default-stream=%quality% --loglevel error
+    start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username2% --default-stream=%quality% --loglevel error
     )
 
 if %streamcount% EQU 3 (
-    start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% best --loglevel error
-    start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username2% best --loglevel error
-  	start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username3% best --loglevel error   
+    start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% --default-stream=%quality% --loglevel error
+    start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username2% --default-stream=%quality% --loglevel error
+  	start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username3% --default-stream=%quality% --loglevel error   
     )
 
 if %streamcount% EQU 4 (
-    start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% best --loglevel error
-    start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username2% best --loglevel error
-  	start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=0%%:100%%" http://twitch.tv/%stream_username3% best --loglevel error   
-  	start /B livestreamer --player="C:/Program Files/mpv/mpv.exe --ontop --mute=yes --no-osc --no-border --autofit=%res% --screen %monitor% --geometry=100%%:100%%" http://twitch.tv/%stream_username4% best --loglevel error    
+    start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=0%%:0%%" http://twitch.tv/%stream_username1% --default-stream=%quality% --loglevel error
+    start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=100%%:0%%" http://twitch.tv/%stream_username2% --default-stream=%quality% --loglevel error
+  	start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=0%%:100%%" http://twitch.tv/%stream_username3% --default-stream=%quality% --loglevel error   
+  	start /B livestreamer --player="%player% %playerargs% --autofit=%res% --screen %monitor% --geometry=100%%:100%%" http://twitch.tv/%stream_username4% --default-stream=%quality% --loglevel error    
     )
 echo.
 echo.
@@ -152,11 +207,39 @@ echo.
 if %streamcount% EQU 1 (
 	echo Showing %streamcount% stream on monitor number %monitor%..
 	echo Close this window to stop the stream.
+	echo.
+	echo MPV Keyboard Control Help
+	echo =========================
+	echo.
+	echo p / SPACE
+	echo Pause (pressing again unpauses).
+	echo.
+	echo / and * or 9 and 0
+	echo Decrease/increase volume.
+	echo.
+	echo m
+	echo Mute sound.
+	echo.
+	echo More help at http://mpv.io/manual/stable/
 	)
 
 if %streamcount% GTR 1 (
 	echo Showing %streamcount% streams on monitor number %monitor%..
 	echo Close this window to stop the streams.
+	echo.
+	echo MPV Keyboard Control Help
+	echo =========================
+	echo.
+	echo p / SPACE
+	echo Pause (pressing again unpauses).
+	echo.
+	echo / and * or 9 and 0
+	echo Decrease/increase volume.
+	echo.
+	echo m
+	echo Mute sound.
+	echo.
+	echo More help at http://mpv.io/manual/stable/
 	)
 
 EXIT /B
